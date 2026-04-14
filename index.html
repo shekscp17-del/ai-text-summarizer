@@ -1,14 +1,54 @@
-<div class="container">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Outfit Lab (AI)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>Outfit Lab (AI)</h1>
 
-  <div class="card">
-    <h2>Build Your Look</h2>
-    <!-- your dropdowns -->
-    <button onclick="generateOutfit()">Generate Outfit</button>
+  <div class="container">
+    <div class="card">
+      <h2>Build Your Look</h2>
+
+      <div class="form-row">
+        <label for="occasion">Occasion</label>
+        <select id="occasion">
+          <option value="Party">Party</option>
+          <option value="Work">Work</option>
+          <option value="Casual">Casual</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label for="style">Style</label>
+        <select id="style">
+          <option value="Elegant">Elegant</option>
+          <option value="Streetwear">Streetwear</option>
+          <option value="Sporty">Sporty</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label for="color">Color</label>
+        <select id="color">
+          <option value="Black">Black</option>
+          <option value="White">White</option>
+          <option value="Blue">Blue</option>
+        </select>
+      </div>
+
+      <button onclick="generateOutfit()">Generate Outfit</button>
+    </div>
+
+    <div class="card" id="result">
+      <h2>Your Outfit</h2>
+      <p>Click generate to see result</p>
+    </div>
   </div>
 
-  <div class="card" id="result">
-    <h2>Your Outfit</h2>
-    <p>Click generate to see result</p>
-  </div>
-
-</div>
+  <script src="main.js"></script>
+</body>
+</html>
