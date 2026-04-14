@@ -3,52 +3,212 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Outfit Lab (AI)</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Smart AI Text Summarizer</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: linear-gradient(135deg, #eef2ff, #f8fafc);
+      color: #1f2937;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 40px auto;
+      background: white;
+      border-radius: 18px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      color: white;
+      padding: 30px;
+    }
+
+    .header h1 {
+      margin: 0 0 10px;
+      font-size: 36px;
+    }
+
+    .header p {
+      margin: 0;
+      font-size: 16px;
+      opacity: 0.95;
+    }
+
+    .content {
+      padding: 30px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .card {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 20px;
+    }
+
+    .card h2 {
+      margin-top: 0;
+      font-size: 22px;
+      color: #111827;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 220px;
+      resize: vertical;
+      padding: 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    select, button {
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: none;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    .controls {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    select {
+      border: 1px solid #cbd5e1;
+      background: white;
+    }
+
+    .primary {
+      background: #2563eb;
+      color: white;
+    }
+
+    .secondary {
+      background: #e5e7eb;
+      color: #111827;
+    }
+
+    .output-box {
+      background: white;
+      border: 1px solid #dbeafe;
+      border-left: 5px solid #2563eb;
+      border-radius: 12px;
+      padding: 16px;
+      min-height: 130px;
+      line-height: 1.7;
+      white-space: pre-wrap;
+    }
+
+    .stats {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    .stat {
+      background: #eff6ff;
+      color: #1d4ed8;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    ul {
+      margin-top: 10px;
+      padding-left: 20px;
+    }
+
+    .footer-note {
+      margin-top: 24px;
+      font-size: 14px;
+      color: #4b5563;
+      background: #f3f4f6;
+      padding: 14px;
+      border-radius: 10px;
+    }
+
+    @media (max-width: 800px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      .header h1 {
+        font-size: 28px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h1>Outfit Lab (AI)</h1>
-
   <div class="container">
-    <div class="card">
-      <h2>Build Your Look</h2>
-
-      <div class="form-row">
-        <label for="occasion">Occasion</label>
-        <select id="occasion">
-          <option value="Party">Party</option>
-          <option value="Work">Work</option>
-          <option value="Casual">Casual</option>
-        </select>
-      </div>
-
-      <div class="form-row">
-        <label for="style">Style</label>
-        <select id="style">
-          <option value="Elegant">Elegant</option>
-          <option value="Streetwear">Streetwear</option>
-          <option value="Sporty">Sporty</option>
-        </select>
-      </div>
-
-      <div class="form-row">
-        <label for="color">Color</label>
-        <select id="color">
-          <option value="Black">Black</option>
-          <option value="White">White</option>
-          <option value="Blue">Blue</option>
-        </select>
-      </div>
-
-      <button onclick="generateOutfit()">Generate Outfit</button>
+    <div class="header">
+      <h1>Smart AI Text Summarizer</h1>
+      <p>A prototype that transforms long text into concise summaries and key points for faster understanding.</p>
     </div>
 
-    <div class="card" id="result">
-      <h2>Your Outfit</h2>
-      <p>Click generate to see result</p>
+    <div class="content">
+      <div class="grid">
+        <div class="card">
+          <h2>Input Text</h2>
+          <textarea id="inputText" placeholder="Paste your paragraph, article, class notes, or report here..."></textarea>
+
+          <div class="controls">
+            <label for="summaryLength"><strong>Summary length:</strong></label>
+            <select id="summaryLength">
+              <option value="10">Short</option>
+              <option value="20" selected>Medium</option>
+              <option value="35">Detailed</option>
+            </select>
+
+            <button class="primary" onclick="summarizeText()">Generate Summary</button>
+            <button class="secondary" onclick="loadSample()">Load Sample</button>
+            <button class="secondary" onclick="clearAll()">Clear</button>
+          </div>
+
+          <div class="stats">
+            <div class="stat" id="inputWords">Input words: 0</div>
+            <div class="stat" id="summaryWords">Summary words: 0</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Summary Output</h2>
+          <div id="summaryOutput" class="output-box">Your summary will appear here.</div>
+
+          <h2 style="margin-top: 24px;">Key Points</h2>
+          <div id="keyPointsOutput" class="output-box">Key points will appear here.</div>
+
+          <div class="controls" style="margin-top: 16px;">
+            <button class="primary" onclick="copySummary()">Copy Output</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-note">
+        <strong>Prototype note:</strong> This demo uses a lightweight client-side summarization approach to simulate an AI workflow. It demonstrates the idea of transforming long unstructured text into concise, readable outputs in a usable web interface.
+      </div>
     </div>
   </div>
 
-  <script src="main.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
